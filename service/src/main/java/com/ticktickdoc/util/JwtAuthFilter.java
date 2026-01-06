@@ -1,6 +1,6 @@
 package com.ticktickdoc.util;
 
-import com.ticktickdoc.decorator.UserDecorator;
+import com.ticktickdoc.adaptor.UserAdaptor;
 import com.ticktickdoc.domain.UserDomain;
 import com.ticktickdoc.enums.SubscriptionEnum;
 import com.ticktickdoc.service.SubscriptionService;
@@ -9,6 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,8 +35,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
         Long userId = null;
@@ -52,7 +53,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if(verifiedSubscription){
                 authorities.add(new SimpleGrantedAuthority(SubscriptionEnum.SUBSCRIPTION_ACTIVE.getValue()));
             }
-            UserDetails userDetails = UserDecorator.builder()
+            UserDetails userDetails = UserAdaptor.builder()
                     .user(user)
                     .authorities(authorities)
                     .build();

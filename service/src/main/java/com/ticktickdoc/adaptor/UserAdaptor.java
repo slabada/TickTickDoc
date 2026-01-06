@@ -1,4 +1,4 @@
-package com.ticktickdoc.decorator;
+package com.ticktickdoc.adaptor;
 
 import com.ticktickdoc.domain.UserDomain;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 @Builder(toBuilder = true)
-public class UserDecorator implements UserDetails {
+public class UserAdaptor implements UserDetails {
 
     private UserDomain user;
 

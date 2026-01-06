@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,8 +81,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public PaymentDomain payments() {
-        Long id = securityUtil.getUserDecorator().getId();
-        String email = securityUtil.getUserDecorator().getEmail();
+        Long id = securityUtil.getUserSecurity().getId();
+        String email = securityUtil.getUserSecurity().getEmail();
         AmountDomain amount = getAmountDomain();
         PaymentMethodDataDomain paymentMethodData = getPaymentMethodDataDomain();
         ConfirmationDomain confirmation = getConfirmationDomain();

@@ -38,7 +38,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional
     public DocumentDomain createDocument(DocumentDomain documentDomain) {
         DocumentModel document = documentMapper.toModel(documentDomain);
-        Long id = securityUtil.getUserDecorator().getId();
+        Long id = securityUtil.getUserSecurity().getId();
         document.setLinkAuthor(id);
         DocumentModel save = documentRepository.save(document);
         return documentMapper.toDomain(save);
@@ -55,7 +55,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Page<DocumentDomain> getAllDocumentByAuthors(Pageable pageable) {
         List<Long> authorsIds = new LinkedList<>();
-        Long id = securityUtil.getUserDecorator().getId();
+        Long id = securityUtil.getUserSecurity().getId();
         UserDomain user = userService.getUser(id);
         List<Long> subsidiaryUserIds = user.getLinkSubsidiaryUser().stream()
                 .map(UserDomain::getId)

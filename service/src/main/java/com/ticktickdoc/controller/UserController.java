@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping("/user/me")
     public UserDto getMyUser() {
-        Long id = securityUtil.getUserDecorator().getId();
+        Long id = securityUtil.getUserSecurity().getId();
         UserDomain user = userService.getUser(id);
         return userMapper.toDto(user);
     }
