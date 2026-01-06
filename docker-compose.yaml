@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: 'postgres'
+    image: postgres:18.1
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+#  minIO:
+#    container_name: 'MinIO'
+#    image: minio/minio
+#    ports:
+#      - '9000:9000'
+#      - '9001:9001'
+#    environment:
+#      MINIO_ROOT_USER: admin
+#      MINIO_ROOT_PASSWORD: 12345678
+#    volumes:
+#      - ./minio-data:/data
+#    command: server /data --console-address ":9001"
+#    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tick-tick-doc
+    container_name: 'TickTickDoc'
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 12345
