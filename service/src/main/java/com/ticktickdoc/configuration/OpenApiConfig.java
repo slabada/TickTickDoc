@@ -24,6 +24,9 @@ public class OpenApiConfig {
                                         .bearerFormat("JWT")
                         )
                 )
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .servers(List.of(
+                        new Server().url("https://incuriously-fusile-aracely.ngrok-free.dev")
+                ));
     }
 }

@@ -15,6 +15,16 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:8
+    container_name: redis
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+
 #  minIO:
 #    container_name: 'MinIO'
 #    image: minio/minio
@@ -38,7 +48,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      postgres:
+      redis:
         condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres

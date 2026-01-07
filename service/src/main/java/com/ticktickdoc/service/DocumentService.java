@@ -13,4 +13,6 @@ public interface DocumentService {
     DocumentDomain updateDocument(Long id, DocumentDomain documentDomain);
 
     Page<DocumentDomain> getAllDocumentByAuthors(Pageable pageable);
+
+    void deleteDocumentById(Long id);
 }

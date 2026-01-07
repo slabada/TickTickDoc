@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,5 +23,5 @@ public class UserDto {
     private String description;
     private String email;
     private LocalDateTime registrationDate;
-    private List<UserDto> linkSubsidiaryUser;
+    private Set<UserDto> linkSubsidiaryUser;
 }

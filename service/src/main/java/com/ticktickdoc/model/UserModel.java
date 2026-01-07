@@ -17,6 +17,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -40,5 +41,5 @@ public class UserModel {
             joinColumns = @JoinColumn(name = "parent_id"),
             inverseJoinColumns = @JoinColumn(name = "child_id")
     )
-    private List<UserModel> linkSubsidiaryUser;
+    private Set<UserModel> linkSubsidiaryUser;
 }

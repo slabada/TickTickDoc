@@ -6,10 +6,11 @@ import com.ticktickdoc.dto.ResponseDocumentDto;
 import com.ticktickdoc.mapper.DocumentMapper;
 import com.ticktickdoc.page.PageResponse;
 import com.ticktickdoc.service.DocumentService;
-import com.ticktickdoc.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentController {
 
-    private final SecurityUtil securityUtil;
-
     private final DocumentService documentService;
     private final DocumentMapper documentMapper;
-
-
 
     @GetMapping("/documents/me")
     public PageResponse<DocumentDto> getMyDocuments(Pageable pageable){
@@ -42,22 +39,30 @@ public class DocumentController {
     }
 
     @GetMapping("/document/{id}")
-    public DocumentDto getDocumentById(@PathVariable("id") Long id){
+    public ResponseEntity<DocumentDto> getDocumentById(@PathVariable("id") Long id){
         DocumentDomain documentById = documentService.getDocumentById(id);
-        return documentMapper.toDto(documentById);
+        DocumentDto dto = documentMapper.toDto(documentById);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping("/document")
-    public DocumentDto createDocument(@RequestBody ResponseDocumentDto documentDto) {
+    public ResponseEntity<DocumentDto> createDocument(@RequestBody ResponseDocumentDto documentDto) {
         DocumentDomain domain = documentMapper.toDomain(documentDto);
         DocumentDomain document = documentService.createDocument(domain);
-        return documentMapper.toDto(document);
+        DocumentDto dto = documentMapper.toDto(document);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PutMapping("/document/{id}")
-    public DocumentDto updateDocument(@PathVariable("id") Long id,@RequestBody ResponseDocumentDto documentDto) {
+    public ResponseEntity<DocumentDto> updateDocument(@PathVariable("id") Long id, @RequestBody ResponseDocumentDto documentDto) {
         DocumentDomain domain = documentMapper.toDomain(documentDto);
         DocumentDomain document = documentService.updateDocument(id, domain);
-        return documentMapper.toDto(document);
+        DocumentDto dto = documentMapper.toDto(document);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping("/document/{id}")
+    public void deleteDocument(@PathVariable("id") Long id) {
+        documentService.deleteDocumentById(id);
     }
 }

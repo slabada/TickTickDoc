@@ -39,6 +39,6 @@ public class AuthenticationController {
                 login.getPassword()
         );
         String jwt = authenticationService.login(loginDomain);
-        return ResponseEntity.ok(new JwtDto(jwt));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new JwtDto(jwt));
     }
 }

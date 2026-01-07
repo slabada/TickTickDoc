@@ -1,13 +1,9 @@
 package com.ticktickdoc.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,5 +18,5 @@ public class UserDomain {
     private String email;
     private String password;
     private LocalDateTime registrationDate;
-    private List<UserDomain> linkSubsidiaryUser;
+    private Set<UserDomain> linkSubsidiaryUser;
 }

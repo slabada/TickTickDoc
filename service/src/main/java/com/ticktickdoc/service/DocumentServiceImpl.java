@@ -8,6 +8,8 @@ import com.ticktickdoc.model.DocumentModel;
 import com.ticktickdoc.repository.DocumentRepository;
 import com.ticktickdoc.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "document", key = "#id")
     public DocumentDomain getDocumentById(Long id) {
         DocumentModel document = documentRepository.findById(id)
                 .orElseThrow(DocumentException.NonDocumentException::new);
@@ -47,12 +50,15 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public DocumentDomain updateDocument(Long id, DocumentDomain documentDomain) {
-        DocumentDomain document = getDocumentById(id);
-        documentMapper.updateDocument(document, documentDomain);
-        return document;
+        DocumentModel document = documentRepository.findById(id)
+                .orElseThrow(DocumentException.NonDocumentException::new);
+        DocumentDomain domain = documentMapper.toDomain(document);
+        documentMapper.updateDocument(domain, documentDomain);
+        return domain;
     }
 
     @Override
+    @Transactional
     public Page<DocumentDomain> getAllDocumentByAuthors(Pageable pageable) {
         List<Long> authorsIds = new LinkedList<>();
         Long id = securityUtil.getUserSecurity().getId();
@@ -64,5 +70,14 @@ public class DocumentServiceImpl implements DocumentService {
         authorsIds.addAll(subsidiaryUserIds);
         Page<DocumentModel> documents = documentRepository.findAllByLinkAuthorIn(authorsIds, pageable);
         return documents.map(documentMapper::toDomain);
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = "document", key = "#id")
+    public void deleteDocumentById(Long id) {
+        if(documentRepository.existsById(id)){
+            documentRepository.deleteById(id);
+        }
     }
 }

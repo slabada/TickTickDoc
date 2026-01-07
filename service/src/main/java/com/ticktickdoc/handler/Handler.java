@@ -58,7 +58,10 @@ public class Handler {
      */
     @ExceptionHandler({
             UserException.ConflictRegistrationUserException.class,
-            AuthenticationException.ConflictAuthException.class
+            AuthenticationException.ConflictAuthException.class,
+            UserException.ConflictAddChildUserException.class,
+            UserException.ConflictAddChildCurrentUserException.class,
+            UserException.ConflictAddChildDuplicateUserException.class
     })
     public ResponseEntity<ErrorResponseDto> handleConflict(Exception ex) {
         ErrorResponseDto error = new ErrorResponseDto().toBuilder()
