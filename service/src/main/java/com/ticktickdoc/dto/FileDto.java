@@ -1,4 +1,4 @@
-package com.ticktickdoc.domain;
+package com.ticktickdoc.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerDomain {
+public class FileDto {
 
-    private String email;
+    private Long id;
+    private String originalFileName;
 }

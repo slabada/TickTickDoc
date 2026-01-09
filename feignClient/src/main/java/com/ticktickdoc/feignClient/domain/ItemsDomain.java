@@ -1,4 +1,4 @@
-package com.ticktickdoc.domain;
+package com.ticktickdoc.feignClient.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

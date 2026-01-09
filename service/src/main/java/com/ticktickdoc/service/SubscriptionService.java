@@ -1,6 +1,6 @@
 package com.ticktickdoc.service;
 
-import com.ticktickdoc.domain.PaymentDomain;
+import com.ticktickdoc.feignClient.domain.PaymentDomain;
 import com.ticktickdoc.domain.SubscriptionDomain;
 import com.ticktickdoc.model.UserModel;
 

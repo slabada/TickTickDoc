@@ -1,6 +1,7 @@
 package com.ticktickdoc.service;
 
 import com.ticktickdoc.domain.*;
+import com.ticktickdoc.feignClient.domain.*;
 import com.ticktickdoc.feignClient.enums.CurrencyEnum;
 import com.ticktickdoc.feignClient.enums.TypeConfirmation;
 import com.ticktickdoc.feignClient.enums.TypePaymentMethod;

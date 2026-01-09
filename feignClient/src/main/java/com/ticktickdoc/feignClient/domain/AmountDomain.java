@@ -1,4 +1,4 @@
-package com.ticktickdoc.domain;
+package com.ticktickdoc.feignClient.domain;
 
 import com.ticktickdoc.feignClient.enums.CurrencyEnum;
 import lombok.AllArgsConstructor;

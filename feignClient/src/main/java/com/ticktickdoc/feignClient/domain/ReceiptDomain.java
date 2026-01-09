@@ -1,16 +1,18 @@
-package com.ticktickdoc.domain;
+package com.ticktickdoc.feignClient.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentMethodDataDomain {
+public class ReceiptDomain {
 
-    private String type;
-
+    private CustomerDomain customer;
+    private List<ItemsDomain> items;
 }

@@ -1,7 +1,6 @@
-package com.ticktickdoc.dto;
+package com.ticktickdoc.feignClient.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,11 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class RegistrationDto {
+public class CustomerDomain {
 
-    private String nickname;
     private String email;
-    private String password;
-    private String description;
 }

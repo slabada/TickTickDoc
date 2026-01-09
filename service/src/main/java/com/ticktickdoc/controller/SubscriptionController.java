@@ -1,6 +1,6 @@
 package com.ticktickdoc.controller;
 
-import com.ticktickdoc.domain.PaymentDomain;
+import com.ticktickdoc.feignClient.domain.PaymentDomain;
 import com.ticktickdoc.feignClient.client.YooKassaClient;
 import com.ticktickdoc.feignClient.dto.PaymentDto;
 import com.ticktickdoc.mapper.SubscriptionMapper;

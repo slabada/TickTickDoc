@@ -18,6 +18,7 @@
         </processorPath>
         <module name="feignClient" />
         <module name="service" />
+        <module name="storage" />
       </profile>
     </annotationProcessing>
   </component>
@@ -26,6 +27,7 @@
       <module name="TickTickDoc" options="" />
       <module name="feignClient" options="" />
       <module name="service" options="-parameters" />
+      <module name="storage" options="" />
     </option>
   </component>
 </project>

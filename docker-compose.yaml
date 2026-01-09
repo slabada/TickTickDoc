@@ -25,19 +25,19 @@ services:
     ports:
       - "6379:6379"
 
-#  minIO:
-#    container_name: 'MinIO'
-#    image: minio/minio
-#    ports:
-#      - '9000:9000'
-#      - '9001:9001'
-#    environment:
-#      MINIO_ROOT_USER: admin
-#      MINIO_ROOT_PASSWORD: 12345678
-#    volumes:
-#      - ./minio-data:/data
-#    command: server /data --console-address ":9001"
-#    restart: unless-stopped
+  minIO:
+    container_name: 'minIO'
+    image: minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: 12345678
+    volumes:
+      - ./minio-data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
 
   app:
     build:

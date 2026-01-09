@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/feignClient/pom.xml" />
         <option value="$PROJECT_DIR$/core/pom.xml" />
         <option value="$PROJECT_DIR$/service/pom.xml" />
+        <option value="$PROJECT_DIR$/storage/pom.xml" />
       </list>
     </option>
   </component>

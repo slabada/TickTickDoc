@@ -1,6 +1,6 @@
 package com.ticktickdoc.mapper;
 
-import com.ticktickdoc.domain.PaymentDomain;
+import com.ticktickdoc.feignClient.domain.PaymentDomain;
 import com.ticktickdoc.domain.SubscriptionDomain;
 import com.ticktickdoc.dto.SubscriptionDto;
 import com.ticktickdoc.feignClient.dto.PaymentDto;

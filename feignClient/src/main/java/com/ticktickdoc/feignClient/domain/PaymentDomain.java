@@ -1,4 +1,4 @@
-package com.ticktickdoc.domain;
+package com.ticktickdoc.feignClient.domain;
 
 import lombok.*;
 

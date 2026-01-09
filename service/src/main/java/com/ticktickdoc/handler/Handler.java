@@ -2,6 +2,8 @@ package com.ticktickdoc.handler;
 
 import com.ticktickdoc.dto.ErrorResponseDto;
 import com.ticktickdoc.exception.AuthenticationException;
+import com.ticktickdoc.exception.DocumentException;
+import com.ticktickdoc.exception.FileException;
 import com.ticktickdoc.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,9 @@ public class Handler {
      * @return кастомный объект исключения
      */
     @ExceptionHandler({
-            AuthenticationException.InvalidJwtTokenException.class
+            AuthenticationException.InvalidJwtTokenException.class,
+            DocumentException.NonDocumentException.class,
+            FileException.BadRequestAddFileForDocumentException.class
     })
     public ResponseEntity<ErrorResponseDto> handleBadRequest(Exception ex) {
         ErrorResponseDto error = new ErrorResponseDto().toBuilder()
@@ -39,7 +43,8 @@ public class Handler {
      * @return кастомный объект исключения
      */
     @ExceptionHandler({
-            UserException.NullUserException.class
+            UserException.NullUserException.class,
+            FileException.NonFileException.class
     })
     public ResponseEntity<ErrorResponseDto> handleNotFound(Exception ex) {
         ErrorResponseDto error = new ErrorResponseDto().toBuilder()

@@ -21,6 +21,5 @@ public class DocumentDomain implements Serializable {
     private OffsetDateTime dateExecution;
     private StatusDocumentEnum status;
     private String urlFile;
-    private Long LinkAuthor;
-    private String responsible;
+    private Long linkAuthor;
 }

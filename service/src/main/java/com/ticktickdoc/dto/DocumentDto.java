@@ -21,5 +21,4 @@ public class DocumentDto {
     private StatusDocumentEnum status;
     private String urlFile;
     private Long LinkAuthor;
-    private String responsible;
 }
