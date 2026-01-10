@@ -16,9 +16,10 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
         </processorPath>
+        <module name="notification" />
+        <module name="storage" />
         <module name="feignClient" />
         <module name="service" />
-        <module name="storage" />
       </profile>
     </annotationProcessing>
   </component>
@@ -26,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="TickTickDoc" options="" />
       <module name="feignClient" options="" />
+      <module name="notification" options="" />
       <module name="service" options="-parameters" />
       <module name="storage" options="" />
     </option>

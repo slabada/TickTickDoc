@@ -13,6 +13,7 @@
     <modules>
         <module>feignClient</module>
         <module>storage</module>
+        <module>notification</module>
         <module>service</module>
     </modules>
 

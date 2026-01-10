@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Document")
@@ -29,7 +29,7 @@ public class DocumentModel {
 
     private String description;
 
-    private OffsetDateTime dateExecution;
+    private LocalDate dateExecution;
 
     private StatusDocumentEnum status;
 

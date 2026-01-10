@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Уведомление о задачах</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f7;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            background-color: #fff;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2a7ae2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .footer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>{{notification_title}}</h2>
+    <p>Уважаемый пользователь, обратите внимание на предстоящие задачи:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Задача</th>
+            <th>Срок</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{tasks_rows}}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Если вы не хотите получать уведомления, просто проигнорируйте это письмо.
+    </div>
+</div>
+</body>
+</html>

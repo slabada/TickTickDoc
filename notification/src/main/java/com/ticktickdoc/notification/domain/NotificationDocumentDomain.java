@@ -1,6 +1,5 @@
-package com.ticktickdoc.dto;
+package com.ticktickdoc.notification.domain;
 
-import com.ticktickdoc.enums.StatusDocumentEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +11,8 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseDocumentDto {
+public class NotificationDocumentDomain {
+
     private String name;
-    private String description;
     private LocalDate dateExecution;
-    private StatusDocumentEnum status;
-    private String urlFile;
-    private String responsible;
 }
