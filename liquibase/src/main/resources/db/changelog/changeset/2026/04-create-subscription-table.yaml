@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1768131419825-1
+      author: slabada228
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_subscription
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: start_date
+                  type: DATE
+              - column:
+                  name: end_date
+                  type: DATE
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+            tableName: subscription
+  - changeSet:
+      id: 1768131419825-2
+      author: slabada228
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: subscription
+            constraintName: FK_SUBSCRIPTION_ON_USER
+            referencedColumnNames: id
+            referencedTableName: users
+

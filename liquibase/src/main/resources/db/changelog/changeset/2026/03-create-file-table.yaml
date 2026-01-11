@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1768131386518-1
+      author: slabada228
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_files
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: file_name
+                  type: VARCHAR(255)
+              - column:
+                  name: original_file_name
+                  type: VARCHAR(255)
+              - column:
+                  name: add_date
+                  type: DATETIME
+              - column:
+                  name: document_id
+                  type: BIGINT
+            tableName: files
+  - changeSet:
+      id: 1768131386518-2
+      author: slabada228
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: document_id
+            baseTableName: files
+            constraintName: FK_FILES_ON_DOCUMENT
+            referencedColumnNames: id
+            referencedTableName: document
+

@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>liquibase</module>
         <module>feignClient</module>
         <module>storage</module>
         <module>notification</module>
