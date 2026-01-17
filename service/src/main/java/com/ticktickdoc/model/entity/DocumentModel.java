@@ -1,6 +1,5 @@
-package com.ticktickdoc.model;
+package com.ticktickdoc.model.entity;
 
-import com.ticktickdoc.enums.StatusDocumentEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,20 +19,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DocumentModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String description;
-
     private LocalDate dateExecution;
-
-    private StatusDocumentEnum status;
-
     private String urlFile;
-
     private Long linkAuthor;
 }

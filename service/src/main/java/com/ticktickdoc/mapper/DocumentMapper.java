@@ -3,7 +3,7 @@ package com.ticktickdoc.mapper;
 import com.ticktickdoc.domain.DocumentDomain;
 import com.ticktickdoc.dto.DocumentDto;
 import com.ticktickdoc.dto.ResponseDocumentDto;
-import com.ticktickdoc.model.DocumentModel;
+import com.ticktickdoc.model.entity.DocumentModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

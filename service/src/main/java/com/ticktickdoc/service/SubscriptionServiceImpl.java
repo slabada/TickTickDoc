@@ -1,18 +1,22 @@
 package com.ticktickdoc.service;
 
-import com.ticktickdoc.domain.*;
-import com.ticktickdoc.feignClient.domain.*;
+import com.ticktickdoc.domain.SubscriptionDomain;
+import com.ticktickdoc.feignClient.domain.AmountDomain;
+import com.ticktickdoc.feignClient.domain.ConfirmationDomain;
+import com.ticktickdoc.feignClient.domain.CustomerDomain;
+import com.ticktickdoc.feignClient.domain.ItemsDomain;
+import com.ticktickdoc.feignClient.domain.PaymentDomain;
+import com.ticktickdoc.feignClient.domain.PaymentMethodDataDomain;
+import com.ticktickdoc.feignClient.domain.ReceiptDomain;
 import com.ticktickdoc.feignClient.enums.CurrencyEnum;
 import com.ticktickdoc.feignClient.enums.TypeConfirmation;
 import com.ticktickdoc.feignClient.enums.TypePaymentMethod;
 import com.ticktickdoc.mapper.SubscriptionMapper;
-import com.ticktickdoc.model.SubscriptionModel;
-import com.ticktickdoc.model.UserModel;
+import com.ticktickdoc.model.entity.SubscriptionModel;
 import com.ticktickdoc.repository.SubscriptionRepository;
 import com.ticktickdoc.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,9 +47,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     @Transactional
-    public SubscriptionDomain createSubscription(UserModel user) {
+    public SubscriptionDomain createSubscription(Long userId) {
         SubscriptionModel subscription = SubscriptionModel.builder()
-                .user(user)
+                .linkUser(userId)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusMonths(1))
                 .isActive(true)
@@ -57,14 +61,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional(readOnly = true)
     public List<SubscriptionDomain> getSubscriptionByUserId(Long userId) {
-        List<SubscriptionModel> subscription = subscriptionRepository.findAllByUser_id(userId);
+        List<SubscriptionModel> subscription = subscriptionRepository.findAllByLinkUser(userId);
         return subscriptionMapper.toDomain(subscription);
     }
 
     @Override
     @Transactional
     public Boolean verifySubscriptionByUserId(Long userId) {
-        List<SubscriptionModel> subscription = subscriptionRepository.findAllByUser_id(userId);
+        List<SubscriptionModel> subscription = subscriptionRepository.findAllByLinkUser(userId);
         return subscription.stream()
                 .anyMatch(SubscriptionModel::getIsActive);
     }
@@ -103,14 +107,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         payment.setDescription(paymentDescription);
         payment.setReceipt(receipt);
         return payment;
-    }
-
-    @Scheduled(cron = "0 0 0 * * *")
-    private void deactivateSubscription() {
-        List<SubscriptionModel> subscriptions = subscriptionRepository.findAllByEndDate(LocalDate.now().plusMonths(1)).stream()
-                .peek(s -> s.setIsActive(Boolean.FALSE))
-                .toList();
-        subscriptionRepository.saveAll(subscriptions);
     }
 
     private ReceiptDomain getReceiptDomain(CustomerDomain customer, ItemsDomain items) {

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder(toBuilder = true)
 public class SubscriptionDto {
     private Long id;
-    private UserDto user;
+    private Long linkUser;
     private LocalDate startDate;
     private LocalDate endDate;
     private Boolean isActive;

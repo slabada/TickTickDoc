@@ -13,8 +13,8 @@ import lombok.Setter;
 @Data
 public class RegistrationDto {
 
-    private String nickname;
+    private String fullName;
     private String email;
     private String password;
-    private String description;
+    private String telegram;
 }

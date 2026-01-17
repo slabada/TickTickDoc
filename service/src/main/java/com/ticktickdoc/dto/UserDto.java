@@ -1,12 +1,12 @@
 package com.ticktickdoc.dto;
 
+import com.ticktickdoc.enums.NotificationTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -17,9 +17,8 @@ import java.util.Set;
 public class UserDto {
 
     private Long id;
-    private String nickname;
-    private String description;
+    private String fullName;
+    private String telegram;
+    private Set<NotificationTypeEnum> notificationType;
     private String email;
-    private LocalDateTime registrationDate;
-    private Set<UserDto> linkSubsidiaryUser;
 }

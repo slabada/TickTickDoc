@@ -4,7 +4,7 @@ import com.ticktickdoc.feignClient.domain.PaymentDomain;
 import com.ticktickdoc.domain.SubscriptionDomain;
 import com.ticktickdoc.dto.SubscriptionDto;
 import com.ticktickdoc.feignClient.dto.PaymentDto;
-import com.ticktickdoc.model.SubscriptionModel;
+import com.ticktickdoc.model.entity.SubscriptionModel;
 import org.mapstruct.Mapper;
 
 import java.util.List;

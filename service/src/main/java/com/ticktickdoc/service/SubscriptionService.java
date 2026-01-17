@@ -1,14 +1,13 @@
 package com.ticktickdoc.service;
 
-import com.ticktickdoc.feignClient.domain.PaymentDomain;
 import com.ticktickdoc.domain.SubscriptionDomain;
-import com.ticktickdoc.model.UserModel;
+import com.ticktickdoc.feignClient.domain.PaymentDomain;
 
 import java.util.List;
 
 public interface SubscriptionService {
 
-    SubscriptionDomain createSubscription(UserModel user);
+    SubscriptionDomain createSubscription(Long userId);
 
     List<SubscriptionDomain> getSubscriptionByUserId(Long userId);
 

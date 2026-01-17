@@ -4,8 +4,8 @@ import com.ticktickdoc.domain.DocumentDomain;
 import com.ticktickdoc.exception.FileException;
 import com.ticktickdoc.mapper.DocumentMapper;
 import com.ticktickdoc.mapper.FileMapper;
-import com.ticktickdoc.model.DocumentModel;
-import com.ticktickdoc.model.FileModel;
+import com.ticktickdoc.model.entity.DocumentModel;
+import com.ticktickdoc.model.entity.FileModel;
 import com.ticktickdoc.repository.FileRepository;
 import com.ticktickdoc.storage.domain.FileDomain;
 import com.ticktickdoc.storage.domain.FileDownloadDomain;
@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
         DocumentModel document = documentMapper.toModel(documentById);
         FileDomain fileDomain = fileStorageService.uploadFile(file);
         FileModel model = fileMapper.toModel(fileDomain);
-        model.setDocument(document);
+        model.setLinkDocument(document.getId());
         FileModel save = fileRepository.save(model);
         return fileMapper.toDomain(save);
     }
@@ -60,7 +60,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<FileDomain> filesList(Long documentId) {
-        List<FileModel> documents = fileRepository.findAllByDocumentId(documentId);
+        List<FileModel> documents = fileRepository.findAllByLinkDocument(documentId);
         return fileMapper.toDomain(documents);
     }
 

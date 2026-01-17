@@ -1,6 +1,5 @@
 package com.ticktickdoc.dto;
 
-import com.ticktickdoc.enums.StatusDocumentEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ public class ResponseDocumentDto {
     private String name;
     private String description;
     private LocalDate dateExecution;
-    private StatusDocumentEnum status;
     private String urlFile;
     private String responsible;
 }

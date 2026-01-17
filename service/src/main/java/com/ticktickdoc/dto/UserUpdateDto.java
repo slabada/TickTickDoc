@@ -1,4 +1,4 @@
-package com.ticktickdoc.domain;
+package com.ticktickdoc.dto;
 
 import com.ticktickdoc.enums.NotificationTypeEnum;
 import lombok.AllArgsConstructor;
@@ -14,12 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class UserDomain {
-
-    private Long id;
+public class UserUpdateDto {
     private String fullName;
     private String telegram;
     private Set<NotificationTypeEnum> notificationType;
     private String email;
-    private String password;
 }

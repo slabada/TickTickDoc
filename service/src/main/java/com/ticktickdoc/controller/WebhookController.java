@@ -1,13 +1,11 @@
 package com.ticktickdoc.controller;
 
-import com.ticktickdoc.domain.UserDomain;
 import com.ticktickdoc.dto.WebhookDto;
 import com.ticktickdoc.dto.WebhookObjectDto;
 import com.ticktickdoc.enums.PaymentStatusEnum;
 import com.ticktickdoc.feignClient.client.YooKassaClient;
 import com.ticktickdoc.feignClient.dto.PaymentDto;
 import com.ticktickdoc.mapper.UserMapper;
-import com.ticktickdoc.model.UserModel;
 import com.ticktickdoc.service.SubscriptionService;
 import com.ticktickdoc.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +38,6 @@ public class WebhookController {
     }
 
     private void createSubscription(Long id) {
-        UserDomain user = userService.getUser(id);
-        UserModel model = userMapper.toModel(user);
-        subscriptionService.createSubscription(model);
+        subscriptionService.createSubscription(id);
     }
 }

@@ -1,26 +1,22 @@
 package com.ticktickdoc.mapper;
 
-import com.ticktickdoc.domain.RequestIdDomain;
-import com.ticktickdoc.domain.ResponseIdDomain;
 import com.ticktickdoc.domain.UserDomain;
 import com.ticktickdoc.dto.RegistrationDto;
-import com.ticktickdoc.dto.RequestIdDto;
-import com.ticktickdoc.dto.ResponseIdDto;
 import com.ticktickdoc.dto.UserDto;
-import com.ticktickdoc.model.UserModel;
+import com.ticktickdoc.dto.UserUpdateDto;
+import com.ticktickdoc.model.entity.UserModel;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
-import java.util.List;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", uses =  {SubscriptionMapper.class})
 public interface UserMapper {
 
     UserDomain toDomain(UserModel userModel);
 
-    @Mapping(target = "linkSubsidiaryUser", ignore = true)
-    @Mapping(target = "registrationDate", ignore = true)
+    @Mapping(target = "notificationType", ignore = true)
     @Mapping(target = "id", ignore = true)
     UserDomain toDomain(RegistrationDto dto);
 
@@ -31,15 +27,10 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     UserDomain toDomain(UserDto userDto);
 
-    RequestIdDomain toDomain(RequestIdDto dto);
-
-    List<RequestIdDomain> toDomain(List<RequestIdDto> dto);
-
-    ResponseIdDto toModel(ResponseIdDomain domain);
-
-    List<ResponseIdDto> toModel(List<ResponseIdDomain> domains);
-
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    UserDomain toDomain(UserUpdateDto Dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUser(UserDomain userDomain, @MappingTarget UserModel model);
 }

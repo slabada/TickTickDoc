@@ -4,25 +4,18 @@ import com.ticktickdoc.domain.DocumentDomain;
 import com.ticktickdoc.domain.UserDomain;
 import com.ticktickdoc.exception.DocumentException;
 import com.ticktickdoc.mapper.DocumentMapper;
-import com.ticktickdoc.model.DocumentModel;
-import com.ticktickdoc.notification.domain.NotificationDocumentDomain;
-import com.ticktickdoc.notification.domain.NotificationDomain;
+import com.ticktickdoc.model.entity.DocumentModel;
 import com.ticktickdoc.repository.DocumentRepository;
 import com.ticktickdoc.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,11 +26,6 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
     private final DocumentMapper documentMapper;
     private final UserService userService;
-
-    private final KafkaTemplate<String, NotificationDomain> kafkaTemplate;
-
-    @Value("${kafka.topic.name}")
-    private String topicName;
 
     @Override
     @Transactional(readOnly = true)
@@ -68,16 +56,16 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<DocumentDomain> getAllDocumentByAuthors(Pageable pageable) {
         List<Long> authorsIds = new LinkedList<>();
         Long id = securityUtil.getUserSecurity().getId();
         UserDomain user = userService.getUser(id);
-        List<Long> subsidiaryUserIds = user.getLinkSubsidiaryUser().stream()
-                .map(UserDomain::getId)
-                .toList();
+//        List<Long> subsidiaryUserIds = user.getChildUser().stream()
+//                .map(UserDomain::getId)
+//                .toList();
         authorsIds.add(id);
-        authorsIds.addAll(subsidiaryUserIds);
+//        authorsIds.addAll(subsidiaryUserIds);
         Page<DocumentModel> documents = documentRepository.findAllByLinkAuthorIn(authorsIds, pageable);
         return documents.map(documentMapper::toDomain);
     }
@@ -90,33 +78,9 @@ public class DocumentServiceImpl implements DocumentService {
         }
     }
 
-    @Scheduled(cron = "0 0 12 * * *")
-    private void getDocumentFotNotification() {
-        long notificationDay = 3L;
-        List<DocumentModel> documents = documentRepository.findAllByDateExecution(LocalDate.now().plusDays(notificationDay));
-
-        Map<Long, List<DocumentModel>> documentsByAuthor = documents.stream()
-                .collect(Collectors.groupingBy(DocumentModel::getLinkAuthor));
-
-        for (Map.Entry<Long, List<DocumentModel>> entry : documentsByAuthor.entrySet()) {
-            Long authorId = entry.getKey();
-            List<DocumentModel> authorDocuments = entry.getValue();
-
-            UserDomain user = userService.getUser(authorId);
-
-            List<NotificationDocumentDomain> notificationDocumentDomains = new LinkedList<>();
-            for (var document : authorDocuments) {
-                NotificationDocumentDomain notification = new NotificationDocumentDomain();
-                notification.setName(document.getName());
-                notification.setDateExecution(document.getDateExecution());
-                notificationDocumentDomains.add(notification);
-            }
-
-            NotificationDomain notification = new NotificationDomain();
-            notification.setEmail(user.getEmail());
-            notification.setDocument(notificationDocumentDomains);
-
-            kafkaTemplate.send(topicName, notification);
-        }
+    @Override
+    @Transactional(readOnly = true)
+    public List<DocumentModel> findAllByDateExecution(LocalDate localDate) {
+        return documentRepository.findAllByDateExecution(localDate);
     }
 }

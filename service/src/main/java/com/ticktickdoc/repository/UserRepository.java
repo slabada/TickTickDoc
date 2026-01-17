@@ -1,6 +1,6 @@
 package com.ticktickdoc.repository;
 
-import com.ticktickdoc.model.UserModel;
+import com.ticktickdoc.model.entity.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,32 +1,27 @@
-package com.ticktickdoc.model;
+package com.ticktickdoc.model.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
-@Entity(name = "Subscription")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class SubscriptionModel {
+@Table(name = "user_child")
+public class UserChildModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserModel user;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Boolean isActive;
+    private Long parentUserId;
+    private Long childUserId;
 }

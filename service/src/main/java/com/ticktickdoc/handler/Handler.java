@@ -4,6 +4,7 @@ import com.ticktickdoc.dto.ErrorResponseDto;
 import com.ticktickdoc.exception.AuthenticationException;
 import com.ticktickdoc.exception.DocumentException;
 import com.ticktickdoc.exception.FileException;
+import com.ticktickdoc.exception.UserChildException;
 import com.ticktickdoc.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,9 +65,10 @@ public class Handler {
     @ExceptionHandler({
             UserException.ConflictRegistrationUserException.class,
             AuthenticationException.ConflictAuthException.class,
-            UserException.ConflictAddChildUserException.class,
-            UserException.ConflictAddChildCurrentUserException.class,
-            UserException.ConflictAddChildDuplicateUserException.class
+            UserChildException.ConflictAddChildUserException.class,
+            UserChildException.ConflictAddChildCurrentUserException.class,
+            UserChildException.ConflictAddChildDuplicateUserException.class,
+            UserChildException.UserAlreadyChildOfAnotherUserException.class
     })
     public ResponseEntity<ErrorResponseDto> handleConflict(Exception ex) {
         ErrorResponseDto error = new ErrorResponseDto().toBuilder()
