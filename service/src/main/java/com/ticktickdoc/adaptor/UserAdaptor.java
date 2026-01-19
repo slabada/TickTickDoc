@@ -22,6 +22,10 @@ public class UserAdaptor implements UserDetails {
         return user.getEmail();
     }
 
+    public String getFullName() {
+        return user.getFullName();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -34,6 +38,6 @@ public class UserAdaptor implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return String.valueOf(user.getId());
     }
 }

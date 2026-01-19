@@ -1,10 +1,11 @@
-package com.ticktickdoc.util;
+package com.ticktickdoc.filter;
 
 import com.ticktickdoc.adaptor.UserAdaptor;
 import com.ticktickdoc.domain.UserDomain;
 import com.ticktickdoc.enums.SubscriptionEnum;
 import com.ticktickdoc.service.SubscriptionService;
 import com.ticktickdoc.service.UserService;
+import com.ticktickdoc.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

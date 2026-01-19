@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface UserChildService {
 
-    ResponseIdDomain addUserChild(RequestIdDomain request);
-
     ResponseIdDomain deleteUserChild(RequestIdDomain request);
 
     List<UserChildDocumentProjection> getUserChildDocument();

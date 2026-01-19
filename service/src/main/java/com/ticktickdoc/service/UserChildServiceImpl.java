@@ -2,6 +2,7 @@ package com.ticktickdoc.service;
 
 import com.ticktickdoc.domain.RequestIdDomain;
 import com.ticktickdoc.domain.ResponseIdDomain;
+import com.ticktickdoc.domain.invent.MessageNotificationInvent;
 import com.ticktickdoc.exception.UserChildException;
 import com.ticktickdoc.model.entity.UserChildModel;
 import com.ticktickdoc.model.projection.UserChildDocumentProjection;
@@ -10,6 +11,8 @@ import com.ticktickdoc.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 
@@ -18,34 +21,31 @@ import java.util.List;
 public class UserChildServiceImpl implements UserChildService {
 
     private final SecurityUtil securityUtil;
-
     private final UserChildRepository userChildRepository;
 
-    @Override
-    @Transactional
-    public ResponseIdDomain addUserChild(RequestIdDomain request) {
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void addUserChild(MessageNotificationInvent invent) {
         Long currentId = securityUtil.getUserSecurity().getId();
-        if (request.getId().equals(currentId)) {
+        if (invent.getId().equals(currentId)) {
             throw new UserChildException.ConflictAddChildCurrentUserException();
         }
-        boolean existsParent = userChildRepository.existsByParentUserId(request.getId());
+        boolean existsParent = userChildRepository.existsByParentUserId(invent.getId());
         if (existsParent) {
             throw new UserChildException.ConflictAddChildUserException();
         }
-        boolean existsChildAndParent = userChildRepository.existsByChildUserIdAndParentUserId(request.getId(), currentId);
+        boolean existsChildAndParent = userChildRepository.existsByChildUserIdAndParentUserId(invent.getId(), currentId);
         if (existsChildAndParent) {
             throw new UserChildException.ConflictAddChildDuplicateUserException();
         }
-        boolean existsChild = userChildRepository.existsByChildUserId(request.getId());
+        boolean existsChild = userChildRepository.existsByChildUserId(invent.getId());
         if (existsChild) {
             throw new UserChildException.UserAlreadyChildOfAnotherUserException();
         }
         UserChildModel userChild = UserChildModel.builder()
-                .parentUserId(currentId)
-                .childUserId(request.getId())
+                .parentUserId(invent.getId())
+                .childUserId(currentId)
                 .build();
         UserChildModel save = userChildRepository.save(userChild);
-        return new ResponseIdDomain(save.getChildUserId());
     }
 
     @Override
