@@ -45,7 +45,7 @@ public class UserChildServiceImpl implements UserChildService {
                 .parentUserId(invent.getId())
                 .childUserId(currentId)
                 .build();
-        UserChildModel save = userChildRepository.save(userChild);
+        userChildRepository.save(userChild);
     }
 
     @Override
