@@ -36,7 +36,7 @@ public class NotificationScheduled {
         List<DocumentModel> documents = documentService.findAllByDateExecution(LocalDate.now().plusDays(notificationDay));
 
         Map<Long, List<DocumentModel>> documentsByAuthor = documents.stream()
-                .collect(Collectors.groupingBy(DocumentModel::getLinkAuthor));
+                .collect(Collectors.groupingBy(DocumentModel::getLinkAuthorId));
 
         for (Map.Entry<Long, List<DocumentModel>> entry : documentsByAuthor.entrySet()) {
             Long authorId = entry.getKey();

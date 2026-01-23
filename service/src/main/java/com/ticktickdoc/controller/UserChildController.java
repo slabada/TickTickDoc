@@ -4,7 +4,7 @@ import com.ticktickdoc.domain.RequestIdDomain;
 import com.ticktickdoc.domain.ResponseIdDomain;
 import com.ticktickdoc.dto.RequestIdDto;
 import com.ticktickdoc.dto.ResponseIdDto;
-import com.ticktickdoc.mapper.ChildMapper;
+import com.ticktickdoc.mapper.UserChildMapper;
 import com.ticktickdoc.model.projection.UserChildDocumentProjection;
 import com.ticktickdoc.service.UserChildService;
 import lombok.RequiredArgsConstructor;
@@ -24,26 +24,18 @@ public class UserChildController {
 
     private final UserChildService userChildService;
 
-    private final ChildMapper childMapper;
+    private final UserChildMapper userChildMapper;
 
     @GetMapping("/user/child/me")
     public List<UserChildDocumentProjection> getUserChildDocument() {
         return userChildService.getUserChildDocument();
     }
 
-//    @PostMapping("/user/child/add")
-//    public ResponseEntity<ResponseIdDto> addSubsidiaryUser(@RequestBody RequestIdDto request) {
-//        RequestIdDomain domain = childMapper.toDomain(request);
-//        ResponseIdDomain responseIdDomains = userChildService.addUserChild(domain);
-//        ResponseIdDto dto = childMapper.toDto(responseIdDomains);
-//        return ResponseEntity.ok().body(dto);
-//    }
-
     @DeleteMapping("/user/child/delete")
     public ResponseEntity<ResponseIdDto> deleteSubsidiaryUser(@RequestBody RequestIdDto request) {
-        RequestIdDomain domain = childMapper.toDomain(request);
+        RequestIdDomain domain = userChildMapper.toDomain(request);
         ResponseIdDomain deleted = userChildService.deleteUserChild(domain);
-        ResponseIdDto dto = childMapper.toDto(deleted);
+        ResponseIdDto dto = userChildMapper.toDto(deleted);
         return ResponseEntity.ok().body(dto);
     }
 }

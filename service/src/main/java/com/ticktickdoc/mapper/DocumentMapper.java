@@ -13,17 +13,24 @@ public interface DocumentMapper {
 
     DocumentModel toModel(DocumentDomain documentDomain);
 
+    @Mapping(target = "file", ignore = true)
     DocumentDomain toDomain(DocumentModel documentModel);
 
+    @Mapping(target = "linkFileId", ignore = true)
+    @Mapping(target = "linkAuthorId", ignore = true)
     DocumentDomain toDomain(DocumentDto documentDto);
 
-    @Mapping(target = "linkAuthor", ignore = true)
+    @Mapping(target = "remindDay", ignore = true)
+    @Mapping(target = "linkFileId", ignore = true)
+    @Mapping(target = "file", ignore = true)
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "linkAuthorId", ignore = true)
     @Mapping(target = "id", ignore = true)
     DocumentDomain toDomain(ResponseDocumentDto documentDto);
 
     DocumentDto toDto(DocumentDomain documentDomain);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "linkAuthor", ignore = true)
+    @Mapping(target = "linkAuthorId", ignore = true)
     void updateDocument(DocumentDomain oldDocument, @MappingTarget DocumentDomain newDocument);
 }

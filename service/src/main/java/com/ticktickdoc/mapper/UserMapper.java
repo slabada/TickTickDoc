@@ -16,6 +16,7 @@ public interface UserMapper {
 
     UserDomain toDomain(UserModel userModel);
 
+    @Mapping(target = "telegram", ignore = true)
     @Mapping(target = "notificationType", ignore = true)
     @Mapping(target = "id", ignore = true)
     UserDomain toDomain(RegistrationDto dto);

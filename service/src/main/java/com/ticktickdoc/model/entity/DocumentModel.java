@@ -1,6 +1,9 @@
 package com.ticktickdoc.model.entity;
 
+import com.ticktickdoc.enums.RemindDayEnum;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,8 +26,11 @@ public class DocumentModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String description;
-    private LocalDate dateExecution;
     private String urlFile;
-    private Long linkAuthor;
+    private LocalDate dateExecution;
+    private String email;
+    @Enumerated(EnumType.STRING)
+    private RemindDayEnum remindDay;
+    private Long linkAuthorId;
+    private Long linkFileId;
 }

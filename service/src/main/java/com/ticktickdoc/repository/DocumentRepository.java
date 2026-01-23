@@ -12,9 +12,7 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<DocumentModel, Long> {
 
-    Page<DocumentModel> findAllByLinkAuthorIn(List<Long> id, Pageable pageable);
+    Page<DocumentModel> findAllByLinkAuthorIdIn(List<Long> id, Pageable pageable);
 
     List<DocumentModel> findAllByDateExecution(LocalDate dateExecution);
-
-    Integer countAllByLinkAuthor(Long id);
 }

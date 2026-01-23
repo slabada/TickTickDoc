@@ -16,5 +16,4 @@ public class RegistrationDto {
     private String fullName;
     private String email;
     private String password;
-    private String telegram;
 }

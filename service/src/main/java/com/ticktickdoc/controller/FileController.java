@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/file")
 @RequiredArgsConstructor
@@ -35,16 +33,17 @@ public class FileController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @GetMapping("/list/{documentId}")
-    public ResponseEntity<List<FileDto>> filesList(@PathVariable("documentId") Long documentId) {
-        List<FileDomain> fileDomains = fileService.filesList(documentId);
-        List<FileDto> dto = fileMapper.toDto(fileDomains);
+    @Deprecated
+    @GetMapping("/file/{documentId}")
+    public ResponseEntity<FileDto> getFileByDocumentId(@PathVariable("documentId") Long documentId) {
+        FileDomain fileDomains = fileService.getFileByDocumentId(documentId);
+        FileDto dto = fileMapper.toDto(fileDomains);
         return ResponseEntity.ok().body(dto);
     }
 
-    @GetMapping("/download/{fileId}")
-    public ResponseEntity<Resource> download(@PathVariable("fileId") Long id) {
-        FileDownloadDomain download = fileService.download(id);
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<Resource> download(@PathVariable("fileName") String fileName) {
+        FileDownloadDomain download = fileService.download(fileName);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename*=UTF-8''" + download.getOriginalName())

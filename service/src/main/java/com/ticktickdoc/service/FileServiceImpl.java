@@ -1,6 +1,7 @@
 package com.ticktickdoc.service;
 
 import com.ticktickdoc.domain.DocumentDomain;
+import com.ticktickdoc.exception.DocumentException;
 import com.ticktickdoc.exception.FileException;
 import com.ticktickdoc.mapper.DocumentMapper;
 import com.ticktickdoc.mapper.FileMapper;
@@ -16,8 +17,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class FileServiceImpl implements FileService {
     public FileDomain upload(Long documentId, MultipartFile file) {
         Long currentId = securityUtil.getUserSecurity().getId();
         DocumentDomain documentById = documentService.getDocumentById(documentId);
-        if(!documentById.getLinkAuthor().equals(currentId)) {
+        if(!documentById.getLinkAuthorId().equals(currentId)) {
             throw new FileException.BadRequestAddFileForDocumentException();
         }
         DocumentModel document = documentMapper.toModel(documentById);
@@ -48,8 +47,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileDownloadDomain download(Long id) {
-        FileModel file = fileRepository.findById(id)
+    public FileDownloadDomain download(String fileName) {
+        FileModel file = fileRepository.findByOriginalFileName(fileName)
                 .orElseThrow(FileException.NonFileException::new);
         Resource resource = fileStorageService.downloadFile(file.getFileName());
         return new FileDownloadDomain(
@@ -59,9 +58,10 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<FileDomain> filesList(Long documentId) {
-        List<FileModel> documents = fileRepository.findAllByLinkDocument(documentId);
-        return fileMapper.toDomain(documents);
+    public FileDomain getFileByDocumentId(Long documentId) {
+        FileModel file = fileRepository.findByLinkDocument(documentId)
+                .orElseThrow(DocumentException.NonDocumentException::new);
+        return fileMapper.toDomain(file);
     }
 
     @Override

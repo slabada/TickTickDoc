@@ -62,4 +62,9 @@ public class UserChildServiceImpl implements UserChildService {
         Long currentUser = securityUtil.getUserSecurity().getId();
         return userChildRepository.findUserWithDocumentCount(currentUser);
     }
+
+    @Override
+    public List<Long> findAllChildUserByUserId(Long userId) {
+        return userChildRepository.findAllByParentUserId(userId);
+    }
 }

@@ -1,5 +1,6 @@
 package com.ticktickdoc.domain;
 
+import com.ticktickdoc.enums.RemindDayEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,11 @@ public class DocumentDomain implements Serializable {
 
     private Long id;
     private String name;
-    private String description;
-    private LocalDate dateExecution;
     private String urlFile;
-    private Long linkAuthor;
+    private LocalDate dateExecution;
+    private String email;
+    private RemindDayEnum remindDay;
+    private Long linkAuthorId;
+    private Long linkFileId;
+    private String file;
 }

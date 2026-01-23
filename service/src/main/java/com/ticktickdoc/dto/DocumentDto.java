@@ -1,5 +1,7 @@
 package com.ticktickdoc.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ticktickdoc.enums.RemindDayEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,10 @@ public class DocumentDto implements Serializable {
 
     private Long id;
     private String name;
-    private String description;
-    private LocalDate dateExecution;
     private String urlFile;
-    private Long LinkAuthor;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dateExecution;
+    private String email;
+    private RemindDayEnum remindDay;
+    private String file;
 }

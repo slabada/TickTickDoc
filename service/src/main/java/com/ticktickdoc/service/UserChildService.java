@@ -11,4 +11,6 @@ public interface UserChildService {
     ResponseIdDomain deleteUserChild(RequestIdDomain request);
 
     List<UserChildDocumentProjection> getUserChildDocument();
+
+    List<Long> findAllChildUserByUserId(Long userId);
 }

@@ -27,10 +27,17 @@ public interface UserChildRepository extends JpaRepository<UserChildModel, Long>
            u.telegram as telegram,
            (SELECT COUNT(d.id)
             FROM DocumentModel d
-            WHERE d.linkAuthor = u.id) as countDocument
+            WHERE d.linkAuthorId = u.id) as countDocument
     FROM UserModel u
     LEFT JOIN UserChildModel uc ON uc.childUserId = u.id
     WHERE uc.parentUserId = :currentId
     """)
     List<UserChildDocumentProjection> findUserWithDocumentCount(@Param("currentId") Long currentId);
+
+    @Query("""
+            SELECT u.childUserId
+            FROM UserChildModel u
+            WHERE u.parentUserId = :parentId
+            """)
+    List<Long> findAllByParentUserId(@Param("parentId") Long parentId);
 }

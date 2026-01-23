@@ -32,7 +32,6 @@ public class DocumentController {
     private final DocumentService documentService;
     private final DocumentMapper documentMapper;
 
-    @Deprecated(since = "##До лучших времен")
     @GetMapping("/documents/me")
     public PageResponse<DocumentDto> getMyDocuments(Pageable pageable){
         Page<DocumentDomain> documents = documentService.getAllDocumentByAuthors(pageable);
