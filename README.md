@@ -20,9 +20,29 @@ TickTickDoc — это сервис для управления документ
 - **Асинхронная обработка:** Apache Kafka
 - **Аутентификация:** JWT-токены
 - **Платежная система:** YooKassa (через Feign Client)
-- **Уведомления:** Email-рассылка
+- **Уведомления:** 
+  - Email: асинхронная рассылка через JavaMailSender.
+  - Real-time: двусторонняя связь через WebSocket (STOMP) для мгновенных оповещений в интерфейсе.
 
 ## 🚀 CI/CD Pipeline
 - **GitHub Actions** для автоматизации процессов
 - **Автоматическая сборка и тестирование** при каждом коммите
 - **Push в Container Registry** (Docker Hub/GitHub Container Registry)
+
+Интерфейс:
+
+- главная страница
+<img width="1788" height="903" alt="image" src="https://github.com/user-attachments/assets/0c7e0e3e-0095-47fb-b933-80ddbee63104" />
+
+- просмотр документа
+<img width="1788" height="903" alt="image" src="https://github.com/user-attachments/assets/7c1f8401-410f-48c7-b8ea-20fe5a748ab6" />
+
+- добавление документа
+<img width="1788" height="903" alt="image" src="https://github.com/user-attachments/assets/88ab9f0d-301a-403f-9304-1241e128da43" />
+
+- просмотр профиля
+<img width="1788" height="903" alt="image" src="https://github.com/user-attachments/assets/3edca752-5b9c-4726-87f0-d23240dfdd95" />
+
+- окно для отправки приглашения
+<img width="1788" height="903" alt="image" src="https://github.com/user-attachments/assets/a49477fb-85d9-49a4-a645-1b81a183bc21" />
+
