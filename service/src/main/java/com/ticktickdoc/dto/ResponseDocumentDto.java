@@ -1,5 +1,6 @@
 package com.ticktickdoc.dto;
 
+import com.ticktickdoc.enums.RemindDayEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ResponseDocumentDto {
     private String name;
-    private String description;
-    private LocalDate dateExecution;
     private String urlFile;
-    private String responsible;
+    private LocalDate dateExecution;
+    private String email;
+    private RemindDayEnum remindDay;
+    private String file;
 }

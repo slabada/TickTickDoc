@@ -1,63 +1,95 @@
 package com.ticktickdoc.scheduled;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ticktickdoc.domain.UserDomain;
 import com.ticktickdoc.model.entity.DocumentModel;
+import com.ticktickdoc.model.entity.OutboxModel;
 import com.ticktickdoc.notification.domain.NotificationDocumentDomain;
 import com.ticktickdoc.notification.domain.NotificationDomain;
+import com.ticktickdoc.notification.domain.NotificationTypeDomain;
 import com.ticktickdoc.service.DocumentService;
+import com.ticktickdoc.service.OutboxService;
 import com.ticktickdoc.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
+import static com.ticktickdoc.notification.enums.NotificationTypeEnum.EMAIL;
+import static com.ticktickdoc.notification.enums.NotificationTypeEnum.TELEGRAM;
+
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class NotificationScheduled {
 
     private final UserService userService;
     private final DocumentService documentService;
+    private final ObjectMapper objectMapper;
 
-    private final KafkaTemplate<String, NotificationDomain> kafkaTemplate;
+    private final OutboxService outboxService;
 
-    @Value("${kafka.topic.name}")
-    private String topicName;
-
-    @Scheduled(cron = "0 0 12 * * *")
-    private void getDocumentFotNotification() {
-        long notificationDay = 3L;
+    @Scheduled(cron = "0 0 11 * * *")
+    public void getDocumentFotNotification() {
+        long notificationDay = 0L;
         List<DocumentModel> documents = documentService.findAllByDateExecution(LocalDate.now().plusDays(notificationDay));
 
-        Map<Long, List<DocumentModel>> documentsByAuthor = documents.stream()
-                .collect(Collectors.groupingBy(DocumentModel::getLinkAuthorId));
+        for (var document : documents) {
+            UserDomain user = userService.getUser(document.getLinkAuthorId());
 
-        for (Map.Entry<Long, List<DocumentModel>> entry : documentsByAuthor.entrySet()) {
-            Long authorId = entry.getKey();
-            List<DocumentModel> authorDocuments = entry.getValue();
-
-            UserDomain user = userService.getUser(authorId);
-
-            List<NotificationDocumentDomain> notificationDocumentDomains = new LinkedList<>();
-            for (var document : authorDocuments) {
-                NotificationDocumentDomain notification = new NotificationDocumentDomain();
-                notification.setName(document.getName());
-                notification.setDateExecution(document.getDateExecution());
-                notificationDocumentDomains.add(notification);
-            }
+            NotificationDocumentDomain notificationDocument = new NotificationDocumentDomain();
+            notificationDocument.setName(document.getName());
+            notificationDocument.setDateExecution(document.getDateExecution());
 
             NotificationDomain notification = new NotificationDomain();
-            notification.setEmail(user.getEmail());
-            notification.setDocument(notificationDocumentDomains);
 
-            kafkaTemplate.send(topicName, notification);
+            Set<NotificationTypeDomain> notificationTypeDomains = new HashSet<>();
+
+            for (var type : user.getNotificationType()) {
+                switch (type) {
+                    case EMAIL -> {
+                        NotificationTypeDomain notificationTypeDomain = new NotificationTypeDomain();
+                        notificationTypeDomain.setType(EMAIL);
+                        notificationTypeDomain.setPayload(user.getEmail());
+                        notificationTypeDomains.add(notificationTypeDomain);
+                    }
+                    case TELEGRAM -> {
+                        NotificationTypeDomain notificationTypeDomain = new NotificationTypeDomain();
+                        notificationTypeDomain.setType(TELEGRAM);
+                        notificationTypeDomain.setPayload(user.getTelegram());
+                        notificationTypeDomains.add(notificationTypeDomain);
+                    }
+                }
+            }
+
+            notification.setNotificationType(notificationTypeDomains);
+            notification.setDocument(notificationDocument);
+
+            try {
+                String json = objectMapper.writeValueAsString(notification);
+
+                OutboxModel outbox = OutboxModel.builder()
+                        .payload(json)
+                        .send(Boolean.FALSE)
+                        .createdAt(LocalDateTime.now())
+                        .build();
+
+                outboxService.save(outbox);
+            } catch (JsonProcessingException e) {
+                log.error("Error serializing notification: {}", e.getMessage());
+            }
         }
     }
 
+    @Scheduled(cron = "0 0 12 * * *")
+    public void notifyByKafka() {
+        outboxService.sendNotifications();
+    }
 }

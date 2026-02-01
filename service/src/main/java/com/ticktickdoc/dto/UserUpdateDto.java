@@ -1,6 +1,6 @@
 package com.ticktickdoc.dto;
 
-import com.ticktickdoc.enums.NotificationTypeEnum;
+import com.ticktickdoc.notification.enums.NotificationTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

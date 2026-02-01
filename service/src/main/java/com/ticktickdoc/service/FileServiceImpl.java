@@ -43,12 +43,14 @@ public class FileServiceImpl implements FileService {
         FileModel model = fileMapper.toModel(fileDomain);
         model.setLinkDocument(document.getId());
         FileModel save = fileRepository.save(model);
+        documentById.setLinkFileId(save.getId());
+        documentService.updateDocument(documentId, documentById);
         return fileMapper.toDomain(save);
     }
 
     @Override
-    public FileDownloadDomain download(String fileName) {
-        FileModel file = fileRepository.findByOriginalFileName(fileName)
+    public FileDownloadDomain download(Long documentId) {
+        FileModel file = fileRepository.findByLinkDocument(documentId)
                 .orElseThrow(FileException.NonFileException::new);
         Resource resource = fileStorageService.downloadFile(file.getFileName());
         return new FileDownloadDomain(

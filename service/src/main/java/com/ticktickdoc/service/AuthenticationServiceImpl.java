@@ -2,8 +2,8 @@ package com.ticktickdoc.service;
 
 import com.ticktickdoc.domain.LoginDomain;
 import com.ticktickdoc.domain.UserDomain;
-import com.ticktickdoc.enums.NotificationTypeEnum;
 import com.ticktickdoc.exception.AuthenticationException;
+import com.ticktickdoc.notification.enums.NotificationTypeEnum;
 import com.ticktickdoc.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

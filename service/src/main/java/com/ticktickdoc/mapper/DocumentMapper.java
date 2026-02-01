@@ -20,10 +20,7 @@ public interface DocumentMapper {
     @Mapping(target = "linkAuthorId", ignore = true)
     DocumentDomain toDomain(DocumentDto documentDto);
 
-    @Mapping(target = "remindDay", ignore = true)
     @Mapping(target = "linkFileId", ignore = true)
-    @Mapping(target = "file", ignore = true)
-    @Mapping(target = "email", ignore = true)
     @Mapping(target = "linkAuthorId", ignore = true)
     @Mapping(target = "id", ignore = true)
     DocumentDomain toDomain(ResponseDocumentDto documentDto);

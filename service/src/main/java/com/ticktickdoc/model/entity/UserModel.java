@@ -1,6 +1,6 @@
 package com.ticktickdoc.model.entity;
 
-import com.ticktickdoc.enums.NotificationTypeEnum;
+import com.ticktickdoc.notification.enums.NotificationTypeEnum;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

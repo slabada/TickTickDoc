@@ -2,7 +2,7 @@ package com.ticktickdoc.notification.service;
 
 import com.ticktickdoc.notification.domain.NotificationDomain;
 
-public interface Notification {
+public interface NotificationSender {
 
-    void send(NotificationDomain domain);
+    void send(String userEmail, NotificationDomain domain);
 }

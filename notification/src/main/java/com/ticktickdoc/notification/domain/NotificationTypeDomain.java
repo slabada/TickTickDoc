@@ -1,18 +1,17 @@
 package com.ticktickdoc.notification.domain;
 
+import com.ticktickdoc.notification.enums.NotificationTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NotificationDomain {
-
-    private Set<NotificationTypeDomain> notificationType;
-    private NotificationDocumentDomain document;
+@Getter
+@Setter
+public class NotificationTypeDomain {
+    
+    private NotificationTypeEnum type;
+    private String payload;
 }

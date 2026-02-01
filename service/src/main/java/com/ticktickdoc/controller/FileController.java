@@ -41,9 +41,9 @@ public class FileController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<Resource> download(@PathVariable("fileName") String fileName) {
-        FileDownloadDomain download = fileService.download(fileName);
+    @GetMapping("/download/{documentId}")
+    public ResponseEntity<Resource> download(@PathVariable("documentId") Long documentId) {
+        FileDownloadDomain download = fileService.download(documentId);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename*=UTF-8''" + download.getOriginalName())

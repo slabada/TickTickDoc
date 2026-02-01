@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface FileRepository extends JpaRepository<FileModel, Long> {
 
     Optional<FileModel> findByLinkDocument(Long documentId);
-
-    Optional<FileModel> findByOriginalFileName(String originalFileName);
 }

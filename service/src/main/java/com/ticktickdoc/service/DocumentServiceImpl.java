@@ -59,8 +59,10 @@ public class DocumentServiceImpl implements DocumentService {
         DocumentModel document = documentRepository.findById(id)
                 .orElseThrow(DocumentException.NonDocumentException::new);
         DocumentDomain domain = documentMapper.toDomain(document);
-        documentMapper.updateDocument(domain, documentDomain);
-        return domain;
+        documentMapper.updateDocument(documentDomain, domain);
+        DocumentModel model = documentMapper.toModel(domain);
+        DocumentModel save = documentRepository.save(model);
+        return documentMapper.toDomain(save);
     }
 
     @Override

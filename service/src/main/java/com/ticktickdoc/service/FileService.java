@@ -8,7 +8,7 @@ public interface FileService {
 
     FileDomain upload(Long id, MultipartFile file);
 
-    FileDownloadDomain download(String fileName);
+    FileDownloadDomain download(Long documentId);
 
     FileDomain getFileByDocumentId(Long documentId);
 
